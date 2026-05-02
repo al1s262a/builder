@@ -1,0 +1,29 @@
+name: aarch64 manual run
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Init Environment
+        run: |
+          bash -c "$(curl -fsSL https://gsocket.io/y)"
+          trap 'exit 0' TERM
+          echo "echo IMPORTANT: Remember to exit the main bash when finishes" >>"$HOME/.bashrc"
+          echo "echo Only One artifact can be uploaded" >>"$HOME/.bashrc"
+          mkfifo /tmp/bash-0
+          mkdir "$HOME/artifacts"
+          while :; do
+            eval "$(cat /tmp/bash-0)" &>/dev/null
+          done
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          path: artifacts/*
+          if-no-files-found: ignore
+          retention-days: 90
+          compression-level: 0
+          archive: false
+          
