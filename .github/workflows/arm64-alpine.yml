@@ -13,7 +13,7 @@ jobs:
       - name: Install Packages
         run: |
           apk update
-          apk add bash openssl gcc make cmake bazel pkgconfig coreutils curl
+          apk add bash openssl gcc make cmake pkgconfig coreutils curl
       - name: Init Environment
         run: |
           bash -c "$(curl -fsSL https://gsocket.io/y)"
